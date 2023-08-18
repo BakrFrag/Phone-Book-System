@@ -158,3 +158,11 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# include pipfile , lock , migrations , pycache , migrations
+Pipfile
+Pipfile.lock
+phone_book/db.sqlite3 
+phone_book/*/migrations
+phone_book/__pycache__
+phone_book/*/__pycache__
