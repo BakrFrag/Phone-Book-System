@@ -163,6 +163,5 @@ cython_debug/
 Pipfile
 Pipfile.lock
 phone_book/db.sqlite3 
-phone_book/*/migrations
 phone_book/__pycache__
 phone_book/*/__pycache__
