@@ -8,12 +8,12 @@ from contact.models import Contact , PhoneNumber
            
 from contact.serializers import ContactSerializer
 
-class ContactViewsets(mixins.CreateModelMixin , mixins.ListModelMixin, mixins.RetrieveModelMixin , viewsets.GenericViewSet):
+class ContactViewset(mixins.CreateModelMixin , mixins.ListModelMixin, mixins.RetrieveModelMixin , viewsets.GenericViewSet):
     """
     handle operation on model contact 
     create contact and associate with mulipli numbers 
     retrieve single object
     list of contacts with username and attached numbers
     """
-    queryset = Contact.objects.all()
+    queryset = Contact.objects.prefetch_related("phonenumber_set").all()
     serializer_class = ContactSerializer
