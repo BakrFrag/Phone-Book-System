@@ -3,10 +3,9 @@
 # Create your views here.
 from rest_framework import viewsets
 from rest_framework import mixins 
-from rest_framework.response import Response
-from contact.models import Contact , PhoneNumber 
+from contact.models import Contact 
            
-from contact.serializers import ContactSerializer
+from contact.serializers import ContactSerializer , ContactCreateSerializer
 
 class ContactViewset(mixins.CreateModelMixin , mixins.ListModelMixin, mixins.RetrieveModelMixin , viewsets.GenericViewSet):
     """
@@ -15,5 +14,8 @@ class ContactViewset(mixins.CreateModelMixin , mixins.ListModelMixin, mixins.Ret
     retrieve single object
     list of contacts with username and attached numbers
     """
-    queryset = Contact.objects.prefetch_related("phonenumber_set").all()
-    serializer_class = ContactSerializer
+    queryset = Contact.objects.all().prefetch_related("numbers")
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ContactSerializer
+        return ContactCreateSerializer

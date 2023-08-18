@@ -10,14 +10,24 @@ class PhoneNumberSerializer(serializers.ModelSerializer):
   
     class Meta:
         model= PhoneNumber
-        fields=["id","number"]
+        fields=["number"]
 
-    
 class ContactSerializer(serializers.ModelSerializer):
     """
     contact serializer
     """
-    numbers = serializers.StringRelatedField()
+    numbers = serializers.StringRelatedField(many=True, read_only=True)
+   
+    class Meta:
+        model = Contact
+        fields = ["username","numbers"]
+
+class ContactCreateSerializer(serializers.ModelSerializer):
+    """
+    contact serializer
+    """
+    
+    numbers = PhoneNumberSerializer(many=True ,write_only=True)
    
     class Meta:
         model = Contact
