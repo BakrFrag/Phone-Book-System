@@ -13,3 +13,28 @@ class PhoneNumberSerializer(serializers.ModelSerializer):
         fields=["id","number"]
 
     
+class ContactSerializer(serializers.ModelSerializer):
+    """
+    contact serializer
+    """
+    numbers = serializers.StringRelatedField()
+   
+    class Meta:
+        model = Contact
+        fields = ["username","numbers"]
+
+    def create(self , validated_data):
+        """
+        custom logic for insert contact name and associate it with multpli phone numbers , wrapp with transaction to prevent create usernames without numbers
+        """
+        with transaction.atomic():
+            contact = validated_data.pop("username")
+            contact , created  = Contact.objects.get_or_create(username=contact)
+            for number in validated_data.get("numbers"):
+                PhoneNumber.objects.create(
+                    **number
+                    , contact=contact
+                )
+            return contact
+
+
